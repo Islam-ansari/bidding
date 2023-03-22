@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+<div class="m-4">
+    <h2>Active Listings</h2>
+    <div class="d-flex flex-row flex-wrap">
+        {% for auction_listing in auction_listings %}
+        {% if auction_listing.isActive %}
+        <div class="card m-3" style="width: 18rem; height: fit-content;">
+            <img src="{{ auction_listing.image }}" class="card-img-top p-2" alt="...">
+            <div class="card-body pb-0">
+                <h5 class="card-title text-truncate">{{ auction_listing.product_name }} </h5>
+                <p class="card-text truncate">{{ auction_listing.description }} </p>
+                <h6>Price: {{ auction_listing.product_price }}</h6>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted card-text pt-0">Created at: {{ auction_listing.created_at }} </li>
+            </ul>
+            <a href="{% url 'listing' id=auction_listing.id %}" class="btn btn-dark" type="hidden"
+                style="border-radius: 0; background-color: #8a0435;">Details</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,184 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+
+<div class="container mt-5">
+    <!-- alert section -->
+    <div class="container">
+        <!-- message if bid was successfully placed or not -->
+        {% if message %}
+        {% if updated %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+        {% else %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+        {% endif %}
+        <!-- message for deleting a bid/ closing the auction -->
+        {% if message_bid %}
+        {% if updated %}
+        <div class="alert alert-warning" role="alert">
+            {{ message_bid }}
+        </div>
+        {% endif %}
+        {% endif %}
+        <!-- message whether you won auction or not -->
+        {% if not listing_item.isActive %}
+        {% if request.user == listing_item.product_price.user %}
+        <div class="alert alert-success" role="alert">
+             Congratulations! You won this auction.
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <!-- listing section -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <img src="{{ listing_item.image }}" alt="image" class="Listing_img">
+        </div>
+        <div class="col-md-5">
+            <h2>{{ listing_item.product_name }} </h2>
+            <hr>
+            <h5>Description</h5>
+            <p class="mt-4 img-fluid">{{ listing_item.description }} </p>
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="mb-3 row">
+                        <label for="bid" class="col-sm-3 col-form-label">Current Bid:</label>
+                        <div class="col-sm-9">
+                            <h4 class="card-title" id="bid">{{ listing_item.product_price }}</h4>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <form action="{% url 'addBid' id=listing_item.id %}" method="post" class="w-100">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="form-inline">
+                                    <div class="col-sm-3">
+                                        <label for="bidlabel" class="bid_info text-muted">Enter {{
+                                            listing_item.product_price }} or more</label>
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <input type="number" name="newBid" id="bidlabel" class="form-control w-100"
+                                            min="0" step="0.01">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="submit" class="btn Listing_btn">Make Bid</button>
+                                    </div>
+                                </div>
+
+                                <p class="bid_info text-muted">Enter {{ listing_item.product_price }} or more</p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <h6 class="card-subtitle mb-2 text-muted">Inclusive of all taxes</h6>
+                    <p>Can put icons here!</p>
+                </div>
+                {% if user.is_authenticated %}
+                <div class="d-flex">
+                    <div class="flex-fill "><a href="{% url 'addtoWatchlist' listing_item.id %}"
+                            class="btn btn-primary wtc_btn">Add to Watchlist</a></div>
+                    <div class="flex-fill "><a href="{% url 'removefromWatchlist' listing_item.id %}"
+                            class="btn btn-danger wtc_btn">Remove from Watchlist</a></div>
+                </div>
+
+                <!-- {% if is_listing_in_watchlist %}
+                    <form action="{% url 'removefromWatchlist' listing_item.id %}" method="post">
+                        {% csrf_token %}
+                        <a href="#" class="card-link btn btn-secondary" style="border-radius: 0; display: block;" id="liveAlertBtn" type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-eye-slash" viewBox="0 0 16 16">
+                                <path
+                                    d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z" />
+                                <path
+                                    d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z" />
+                                <path
+                                    d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z" />
+                            </svg>
+                            Remove from Watchlist
+                        </a>
+                    </form> -->
+                <!-- {% else %}
+                    <form action="{% url 'addtoWatchlist' listing_item.id %}" method="post">
+                        {% csrf_token %}
+                        <a href="#" class="card-link btn btn-secondary" style="border-radius: 0; display: block;" id="liveAlertBtn" type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                <path
+                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                            </svg>
+                            Add to Watchlist
+                        </a>
+                    </form>
+                    {% endif %} -->
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-3">
+            {% if user.is_authenticated and listing_item.isActive %}
+            {% if isOwner %}
+            <div class="card shadow" style="width: 18rem;">
+                <div class="card-header text-center bg-info">
+                    Options
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'closeAuction' id=listing_item.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger w-100 mb-2"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                          </svg> Close Auction</button>
+                        <button disabled class="btn btn-warning w-100 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                          </svg> Edit</button>
+                        <button disabled class="btn btn-secondary w-100 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                          </svg> Delete</button>
+                    </form>
+                </div>
+              </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+
+    <!-- Comment Section -->
+    <div class="mt-3">
+        <h3>Comments</h3>
+        {% if user.is_authenticated %}
+        <form action="{% url 'addComment' id=listing_item.id %}" method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="w-75">
+                <ul class="list-group mb-4 comment_list">
+                    {% for comment in allComments %}
+                    <li class="list-group-item list-group-item-secondary" style="border-radius: 0;">
+                        <div class="d-flex">
+                            <img src="https://th.bing.com/th/id/OIP.R87PbOkdc695AAZ-_qrLYwHaHk?pid=ImgDet&rs=1" alt=""
+                                class="comment_img2 mr-3" style="border-radius: 50%;">
+                            <div class="d-flex flex-column">
+                                <h6>{{ comment.author }}</h6>
+                                {{ comment.message }}
+                                <p class="text-muted" style="font-size: 13px; margin-bottom: 0;">{{ comment.created_at|timesince }} ago</p>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="d-flex">
+                    <img src="https://th.bing.com/th/id/OIP.1nWRQ7r_1nEVJ6sdz_zwkwHaE8?pid=ImgDet&rs=1" alt=""
+                        class="comment_img">
+                    <textarea name="message" id="" cols="100" rows="3" placeholder="Add a Comment"></textarea>
+                </div>
+                <input type="submit" class="btn btn-success comment_btn my-2" value="Post">
+            </div>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

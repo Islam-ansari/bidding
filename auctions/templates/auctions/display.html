@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="m-4">
+    <h2>Watchlist</h2>
+
+    <div class="d-flex flex-row flex-wrap" >
+        {% for item in watchlist_items %}
+            <div class="card m-3" style="width: 18rem; height: fit-content;">
+                <img src="{{ item.auction_item.image }}" class="card-img-top p-2" alt="...">
+                <div class="card-body pb-0">
+                    <h5 class="card-title text-truncate">{{ item.auction_item.product_name }} </h5>
+                    <p class="card-text truncate">{{ item.auction_item.description }} </p>
+                    <h6>Price: {{ item.auction_item.product_price }}</h6>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted card-text pt-0">Created at: {{ item.auction_item.created_at }} </li>
+                </ul>
+                    <a href="{% url 'listing' id=item.auction_item.id %}" class="btn btn-dark" type="hidden" style="border-radius: 0; background-color: #8a0435;">Details</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

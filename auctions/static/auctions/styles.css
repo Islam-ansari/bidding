@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+nav a{
+    color: white;
+}
+nav a:hover {
+    color: #8a0435;
+}
+.img_nav{
+    width: 3rem;
+}
+.modal_edit {
+    display: contents;
+}
+.container{
+    max-width: 1300px;
+}
+.card-text{
+    font-size: small;
+}
+.truncate{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* restricts the number of lines to 5 */
+    -webkit-box-orient: vertical;
+}
+.form-wrapper{
+    width: 75%;
+    margin: auto;
+}
+
+@media screen and (max-width: 992px) {
+    .form-wrapper{
+        width: 100%;
+    }
+}
+
+.cat_img {
+    height: 15rem;
+    object-fit: cover;
+}
+
+.cat_links {
+    color: white;
+}
+
+.cat_links:hover {
+    color: black;
+}
+.badge {
+    color: white;
+}
+.Listing_img{
+    max-width: 22rem;
+}
+.Listing_btn{
+    background-color: var(--purple);
+    border-color: var(--purple);
+    color: white;
+}
+.Listing_btn:hover {
+    color: white;
+    background-color: #9d67d3;
+    border-color: #d9b4ff;
+}
+.Listing_btn:active {
+    color: white;
+    background-color: #b4a1ff;
+    border-color: #b4a1ff;
+}
+.nav-link {
+    display: inline;
+}
+.watchlist_link{
+    padding-right: 5px;
+}
+.wtc_btn{
+    width: -webkit-fill-available;
+    border-radius: 0;
+}
+.comment_img{
+    height: 3rem;
+}
+.comment_img2{
+    height: 2rem;
+}
+.comment_btn{
+    margin-left: 71px;
+}
+.comment_list{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    max-height: 16rem;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 8px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    background: #80808069;  
+}
+p.bid_info{
+    margin-left: 28%;
+}
+label.bid_info{
+    display: none;
+}
+@media screen and (max-width: 760px) {
+    p.bid_info{
+        margin-left: 3%;
+        display: none;
+    }
+    label.bid_info{
+        display: unset;
+    }
+}
+
+/* footer{
+    position: inherit;
+    width: -webkit-fill-available;
+    bottom: 0;
+} */
+
+footer a{
+    color: white;
+}
+.footer_container li{
+    font-size: 14px;
+}
+footer a:hover{
+    color: #f70a61;
+}
+.footer_heading{
+    text-align: left;
+}
+.greeting{
+    text-align: center;
+}
+.greeting a{
+    padding: 0;
+}

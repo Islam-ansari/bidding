@@ -1,0 +1,9 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+{% if not user.is_authenticated %}
+<div class="greeting" style="height: 70vh;">
+    <h1>Hi There</h1>
+    <p>You need to be looged in to see this site's content! Please <a class="nav-link" href="{% url 'login' %}">sign in</a> or <a class="nav-link" href="{% url 'register' %}">register</a> for a account if not have one.</p>
+</div>
+{% endif %}
+{% endblock %}
